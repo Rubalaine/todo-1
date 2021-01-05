@@ -1,71 +1,51 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import ToDo from "./components/ToDo";
-import CreateTodo from "./components/CreateTodo";
+import TodoCreator from "./components/TodoCreator";
+import Todos from "./components/Todos";
+import TodoContext from "./Context/TodoContext";
 
-const ContainerDiv = styled.div`
-  background-image: linear-gradient(to right bottom, #2222ac, #101055);
-  height: 100vh;
-  width: 100%;
-`;
-const ToDoContainerDiv = styled.div`
+const Container = styled.div`
   max-width: 50rem;
-  min-height: 10rem;
-  margin: 0 auto;
-  transform: translateY(10rem);
-  background-color: white;
-  border-radius: 0.5rem;
-  padding: 2rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  margin: 5rem auto;
+  /* background-color: #c6c6cc; */
+  /* border-radius: 1rem; */
 `;
-
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        name: "here is where i describe something about this todo",
-        viewed: false,
-      },
-      {
-        id: 2,
-        name: "here is where i describe something about this todo",
-        viewed: false,
-      },
-    ],
+    todos: [{ checked: true, message: "hello from the other side", key: 23 }],
   };
-  deleteTodo = (index) => {
+  addTodo = (todo) => {
+    todo.checked = false;
+    todo.key = Math.random();
     const todos = [...this.state.todos];
-    todos.splice(index, 1);
-
+    todos.push(todo);
     this.setState({ todos: todos });
   };
-  createTodo = (todo) => {
-    todo.id = Math.random();
-    todo.viewed = false;
-    const newTodos = [...this.state.todos];
-    newTodos.push(todo);
-    this.setState({
-      todos: newTodos,
-    });
+  removeTodo = (index) => {
+    const todos = [...this.state.todos];
+    todos.splice(index, 1);
+    this.setState({ todos: todos });
+  };
+  check = (index) => {
+    const todos = [...this.state.todos];
+    todos[index].checked = !todos[index].checked;
+    this.setState({ todos: todos });
   };
   render() {
-    const todos = this.state.todos.map((todo, index) => (
-      <ToDo
-        name={todo.name}
-        description={todo.description}
-        key={todo.id}
-        viewed={todo.viewed}
-        delete={() => this.deleteTodo(index)}
-      />
-    ));
     return (
-      <ContainerDiv>
-        <ToDoContainerDiv>
-          <CreateTodo createTodo={this.createTodo} />
-          {todos}
-        </ToDoContainerDiv>
-      </ContainerDiv>
+      <TodoContext.Provider
+        value={{
+          todos: this.state.todos,
+          addTodo: this.addTodo,
+          removeTodo: this.removeTodo,
+          check: this.check,
+        }}
+      >
+        <Container>
+          <TodoCreator></TodoCreator>
+          <Todos></Todos>
+        </Container>
+      </TodoContext.Provider>
     );
   }
 }
