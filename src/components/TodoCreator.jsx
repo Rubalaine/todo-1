@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-const Container = styled.div`
+const Form = styled.form`
   display: flex;
   background-color: #111185;
   padding: 1rem;
@@ -22,11 +22,14 @@ const Button = styled.button`
   border-radius: 0.8rem;
   padding: 1rem;
 `;
-const TodoCreator = (props) => (
-  <Container>
-    <Input type="text" name="" id="" />
-    <Button>Add</Button>
-  </Container>
-);
+const TodoCreator = (props) => {
+  const [name, setname] = useState({ name: "" });
+  return (
+    <Form>
+      <Input type="text" name="" id="name" />
+      <Button>Add</Button>
+    </Form>
+  );
+};
 
 export default TodoCreator;
