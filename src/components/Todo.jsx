@@ -14,7 +14,7 @@ const TodoDiv = styled.div`
   }
 `;
 const TodoText = styled.p`
-  /* width: 80%; */
+  text-decoration: ${(props) => (props.checked ? "line-through" : "none")};
 `;
 const CheckBox = styled.input.attrs({
   type: "checkbox",
@@ -30,7 +30,7 @@ export default function Todo(props) {
   return (
     <TodoDiv>
       <CheckBox checked={props.checked} onChange={props.check}></CheckBox>
-      <TodoText>{props.message}</TodoText>
+      <TodoText checked={props.checked}>{props.message}</TodoText>
       <RemoveTodo onClick={props.remove}>Concluir</RemoveTodo>
     </TodoDiv>
   );

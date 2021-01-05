@@ -12,9 +12,10 @@ const Container = styled.div`
 `;
 class App extends Component {
   state = {
-    todos: [{ checked: true, message: "hello from the other side", key: 23 }],
+    todos: [{ checked: false, message: "hello from the other side", key: 23 }],
   };
   addTodo = (todo) => {
+    console.log(todo);
     todo.checked = false;
     todo.key = Math.random();
     const todos = [...this.state.todos];

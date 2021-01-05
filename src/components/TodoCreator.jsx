@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+
 import styled from "styled-components";
+import TodoContext from "../Context/TodoContext";
 const Form = styled.form`
   display: flex;
   background-color: #111185;
@@ -23,12 +25,26 @@ const Button = styled.button`
   padding: 1rem;
 `;
 const TodoCreator = (props) => {
-  const [name, setname] = useState({ name: "" });
+  const [message, setMessage] = useState({ message: "" });
+
   return (
-    <Form>
-      <Input type="text" name="" id="name" />
-      <Button>Add</Button>
-    </Form>
+    <TodoContext.Consumer>
+      {(context) => {
+        const handleChange = (event) => {
+          setMessage({ [event.target.id]: event.target.value });
+        };
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          context.addTodo(message);
+        };
+        return (
+          <Form onSubmit={handleSubmit}>
+            <Input type="text" name="" id="message" onChange={handleChange} />
+            <Button>Add</Button>
+          </Form>
+        );
+      }}
+    </TodoContext.Consumer>
   );
 };
 
