@@ -36,6 +36,8 @@ const TodoCreator = (props) => {
         const handleSubmit = (event) => {
           event.preventDefault();
           context.addTodo(message);
+          console.log(event.target[0].value);
+          event.target[0].value = "";
         };
         return (
           <Form onSubmit={handleSubmit}>
